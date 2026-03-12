@@ -1,4 +1,6 @@
-const API_BASE_URL = 'http://localhost:23088/api/tron'
+// const API_BASE_URL = 'http://localhost:23055/api/tron'
+// const API_BASE_URL = 'http://13.251.201.149:23055/api/tron'
+const API_BASE_URL = 'https://realflowpower.com/api/api/tron'
 
 export async function fetchPlatformStats() {
   try {

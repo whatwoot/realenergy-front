@@ -12,9 +12,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex flex-col w-96 bg-violet-50">
+  <div class="flex flex-col w-full bg-violet-50">
     <div
-      class="w-96 h-13 bg-white flex justify-between items-center  pb-2 pt-2"
+      class="w-full h-13 bg-white flex justify-between items-center  pb-2 pt-2"
     >
       <div class="flex flex-row items-center">
         <div class="w-5 h-8 ml-4">
@@ -28,7 +28,8 @@ onMounted(() => {
           </div>
         </div>
       </div>
-      <div>
+      <div class="h-13 flex items-center">
+        <RouterLink to="/docs" class="flex items-center h-full">
         <div class="w-6 h-6 mr-4">
           <svg
             width="24"
@@ -43,11 +44,12 @@ onMounted(() => {
             />
           </svg>
         </div>
+        </RouterLink>
       </div>
     </div>
 
     <!-- 内容区 -->
-    <div class="w-96 flex flex-col items-center">
+    <div class="w-full flex flex-col items-center">
       <div class="flex flex-col items-center pt-8">
         <div class="justify-start mb-7">
           <span class="text-black text-3xl font-semibold font-['PingFang_SC']">波场能量 </span
@@ -74,7 +76,7 @@ onMounted(() => {
         </RouterLink>
       </div>
 
-      <div class="w-96">
+      <div class="w-full">
         <div class="h-32 bg-white rounded-3xl flex flex-col items-center m-4">
           <div class="text-center justify-start my-4">
             <span class="text-black text-xl font-bold font-['Alibaba_PuHuiTi_2.0']">平台</span
@@ -119,7 +121,7 @@ onMounted(() => {
         </div>
       </div>
 
-      <div class="w-96">
+      <div class="w-full">
         <div class="bg-white rounded-3xl p-4 flex flex-col items-center m-4">
           <div class="text-center justify-start mb-4">
             <span class="text-black text-xl font-bold font-['Alibaba_PuHuiTi_2.0']">为什么选择</span
@@ -187,7 +189,7 @@ onMounted(() => {
         </div>
       </div>
 
-      <div class="w-96">
+      <div class="w-full">
         <div class="bg-white rounded-3xl p-4 flex flex-col items-center m-4">
           <div class="mb-4">
             <div class="text-center justify-start mb-4">
@@ -298,13 +300,13 @@ onMounted(() => {
         </div>
       </div>
 
-      <div class="w-96">
+      <div class="w-full">
         <div class="flex flex-row mx-8 mt-6 mb-2 items-center">
           <div class="w-5 h-8">
             <!--            <img src="@/assets/zhinan_4.png" class="w-10 h-10 object-contain" />-->
             <img
               src="@/assets/logo_1.png"
-              class="w-5 h-8 object-contain border"
+              class="w-5 h-8 object-contain"
               style="border-color: #0ee0f9"
             />
           </div>

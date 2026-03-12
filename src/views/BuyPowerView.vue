@@ -20,7 +20,7 @@ onMounted(async () => {
   }
 })
 
-const ENERGY_EXPEND = 32500
+const ENERGY_EXPEND = 64000
 const avaliableEnergy = ref(1956351456)
 
 const count = ref(1)
@@ -53,7 +53,17 @@ const showCopySuccess = ref(false)
 
 const copyAddress = async () => {
   try {
-    await navigator.clipboard.writeText(ADDRESS)
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      await navigator.clipboard.writeText(statsStore.depositAddress)
+    } else {
+      // Fallback for older browsers or non-secure contexts
+      const textarea = document.createElement('textarea')
+      textarea.value = statsStore.depositAddress
+      document.body.appendChild(textarea)
+      textarea.select()
+      document.execCommand('copy')
+      document.body.removeChild(textarea)
+    }
     showCopySuccess.value = true
     setTimeout(() => {
       showCopySuccess.value = false
@@ -62,6 +72,7 @@ const copyAddress = async () => {
     console.error('复制失败:', err)
   }
 }
+
 
 const router = useRouter()
 
@@ -72,8 +83,8 @@ const goBack = () => {
 
 </script>
 <template>
-  <div class="w-96 h-[1451px] relative bg-slate-50 overflow-hidden">
-    <div class="w-96 h-13 flex justify-center items-center border-b border-gray-200 pb-2 pt-2">
+  <div class="w-full h-[1451px] relative bg-slate-50 overflow-hidden">
+    <div class="w-full h-13 flex justify-center items-center border-b border-gray-200 pb-2 pt-2">
       <div class="w-6 h-6 flex-none absolute left-4 cursor-pointer" @click="goBack">
         <img src="@/assets/left_arraw.png" class="w-6 h-6 object-contain" />
       </div>
@@ -82,7 +93,7 @@ const goBack = () => {
       </div>
     </div>
 
-    <div class="w-96">
+    <div class="w-full">
       <div class="m-4 h-[463px] bg-white rounded-2xl py-4 pl-4">
         <div class="justify-start text-blue-600 text-base font-medium font-['PingFang_SC']">
           转账购买
@@ -99,11 +110,11 @@ const goBack = () => {
           >
             设置转账笔数
           </div>
-          <div class="justify-end items-center">
-            <span class="text-slate-500 text-xs font-normal font-['PingFang_SC']"
-              >如果接收地址没有USDT，请选择</span
-            ><span class="text-blue-600 text-xs font-medium font-['PingFang_SC'] pl-1">2笔</span>
-          </div>
+<!--          <div class="justify-end items-center">-->
+<!--            <span class="text-slate-500 text-xs font-normal font-['PingFang_SC']"-->
+<!--              >如果接收地址没有USDT，请选择</span-->
+<!--            ><span class="text-blue-600 text-xs font-medium font-['PingFang_SC'] pl-1">2笔</span>-->
+<!--          </div>-->
         </div>
 
         <div class="flex mt-2 items-center">
@@ -124,9 +135,11 @@ const goBack = () => {
             </div>
           </div>
           <div
-            class="ml-4 justify-start text-black text-xs font-normal font-['PingFang_SC'] leading-5"
+            class="ml-4 flex items-center justify-start text-black text-xs font-normal font-['PingFang_SC'] leading-5"
           >
-            ≈ {{ count }} 次 USDT 转账
+            <span>≈</span>
+            <span class="w-5 text-center">{{ count }}</span>
+            <span>次 USDT 转账</span>
           </div>
         </div>
         <div class="flex justify-between pr-4 mt-2">
@@ -192,9 +205,8 @@ const goBack = () => {
             <span class="text-zinc-800 text-xs font-medium font-['PingFang_SC'] leading-3"
               >向下面地址转账
             </span>
-            <span class="text-blue-600 text-xs font-medium font-['PingFang_SC'] leading-3 pl-1">
-              {{ amount }} TRX
-            </span>
+            <span class="w-5  text-center text-blue-600 text-xs font-medium font-['PingFang_SC'] leading-3 pl-1">{{ amount }}</span>
+            <span class="text-blue-600 text-xs font-medium font-['PingFang_SC'] leading-3 pl-1">TRX</span>
           </div>
         </div>
         <div class="flex mt-4 items-center">
@@ -223,13 +235,14 @@ const goBack = () => {
           </div>
         </div>
 
-        <div class="mt-4 w-80 justify-start">
-          <span class="text-slate-500 text-xs font-medium font-['PingFang_SC']"
-            >转账成功后，可获得 </span
-          ><span class="text-blue-600 text-xs font-medium font-['PingFang_SC']"> {{ energy.toLocaleString() }} </span
-          ><span class="text-slate-500 text-xs font-medium font-['PingFang_SC']"
-            >能量，可用于 {{ count }} 次 USDT 转账节省 </span
-          ><span class="text-blue-600 text-xs font-medium font-['PingFang_SC']">80%</span
+        <div class="mt-4 w-80 flex flex-wrap justify-start items-center">
+          <span class="text-slate-500 text-xs font-medium font-['PingFang_SC']">转账成功后，可获得 </span>
+          <span class="w-20 text-center font-mono text-blue-600 text-xs font-medium font-['PingFang_SC']">{{ energy.toLocaleString() }} </span>
+          <span class="text-slate-500 text-xs font-medium font-['PingFang_SC']">能量，可用于 </span>
+          <span class="w-5 text-center font-mono text-slate-500 text-xs font-medium font-['PingFang_SC']">{{ count }}</span>
+          <span class="text-slate-500 text-xs font-medium font-['PingFang_SC']">次</span>
+          <span class="text-slate-500 text-xs font-medium font-['PingFang_SC']"> USDT 转账节省 </span>
+        <span class="text-blue-600 text-xs font-medium font-['PingFang_SC']">80%</span
           ><span class="text-slate-500 text-xs font-medium font-['PingFang_SC']">
             手续费！ 请在 </span
           ><span class="text-blue-600 text-xs font-medium font-['PingFang_SC']">15分 </span
@@ -251,7 +264,7 @@ const goBack = () => {
     </div>
 
     <!--购买指南-->
-    <div class="w-96">
+    <div class="w-full">
       <div class="m-4 h-96 bg-white rounded-2xl py-4 pl-4">
         <div class="flex items-center space-x-2">
           <div class="w-5 h-5 flex justify-center items-center">
@@ -391,36 +404,48 @@ const goBack = () => {
 
       <!-- 波场指南 -->
       <div class="flex flex-col m-4 h-52 bg-white rounded-2xl py-4 pl-4">
+        <RouterLink to="/docs/what_is_tron_energy">
         <div
           class="mb-2 w-60 h-4 justify-start text-slate-500 text-xs font-medium font-['PingFang_SC'] leading-4"
         >
           什么是波场能量？怎么获得能量？<br />
         </div>
+        </RouterLink>
+        <RouterLink to="/docs/out_of_energy">
         <div
           class="mb-2 w-60 h-4 justify-start text-slate-500 text-xs font-medium font-['PingFang_SC'] leading-4"
         >
           如何解决"OUT OF ENERGY"错误？
         </div>
+        </RouterLink>
+        <RouterLink to="/docs/why_not_dex">
         <div
           class="mb-2 w-60 h-4 justify-start text-slate-500 text-xs font-medium font-['PingFang_SC'] leading-4"
         >
           为什么不能用中心化交易所的钱包购买能量？
         </div>
+        </RouterLink>
+        <RouterLink to="/docs/why_rentail_energy">
         <div
           class="mb-2 w-60 h-4 justify-start text-slate-500 text-xs font-medium font-['PingFang_SC'] leading-4"
         >
           如何租赁能量？
         </div>
+        </RouterLink>
+        <RouterLink to="/docs/why_transfer_failed">
         <div
           class="mb-2 w-60 h-4 justify-start text-slate-500 text-xs font-medium font-['PingFang_SC'] leading-4"
         >
           已经租赁了能量，为什么转账还是失败？
         </div>
+        </RouterLink>
+        <RouterLink to="/docs/how_much_energy">
         <div
           class="mb-2 w-60 h-4 justify-start text-slate-500 text-xs font-medium font-['PingFang_SC'] leading-4"
         >
           波场上转USDT需要多少能量？
         </div>
+        </RouterLink>
         <RouterLink to="/docs">
         <div class="flex flex-row mb-2 items-center">
           <div class="justify-start text-blue-600 text-xs font-medium font-['PingFang_SC']">
@@ -444,16 +469,16 @@ const goBack = () => {
         </div>
         <div class="justify-start my-4">
           <span class="text-slate-500 text-xs font-medium font-['PingFang_SC']">官方唯一客服：</span
-          ><span class="text-blue-600 text-xs font-medium font-['PingFang_SC']">@RealFlow_trx</span>
+          ><span class="text-blue-600 text-xs font-medium font-['PingFang_SC']">@RealFlow_trc20</span>
         </div>
         <div class="justify-start text-slate-500 text-xs font-normal font-['PingFang_SC']">
-          RealFlow.io 提供7x24 全天候的技术支持，<br />确保任何问题都能在第一时间得到解决。<br />购买能量、能量租赁RealFlow.io
+          realflowpower.com 提供7x24 全天候的技术支持，<br />确保任何问题都能在第一时间得到解决。<br />购买能量、能量租赁realflowpower.com
           为您提供专业的服务。
         </div>
         <div class="justify-start">
           <span class="text-slate-500 text-xs font-normal font-['PingFang_SC']"
             >如需使用TG机器人自助购买能量，请点击<br /></span
-          ><span class="text-blue-600 text-xs font-medium font-['PingFang_SC']">@RealFlow_trx</span>
+          ><span class="text-blue-600 text-xs font-medium font-['PingFang_SC']">@RealFlow_trc20</span>
         </div>
       </div>
     </div>

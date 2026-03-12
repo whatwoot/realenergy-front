@@ -27,7 +27,7 @@ const router = createRouter({
       component: BuyPowerView,
     },
     {
-      path: '/docs',
+      path: '/docs/:page?',
       name: 'HelpDocs',
       component: DocsView
     },
