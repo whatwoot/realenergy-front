@@ -13,9 +13,7 @@ onMounted(() => {
 
 <template>
   <div class="flex flex-col w-full bg-violet-50">
-    <div
-      class="w-full h-13 bg-white flex justify-between items-center  pb-2 pt-2"
-    >
+    <div class="w-full h-13 bg-white flex justify-between items-center pb-2 pt-2 fixed top-0 left-0 right-0 z-50">
       <div class="flex flex-row items-center">
         <div class="w-5 h-8 ml-4">
           <img src="@/assets/logo_1.png" class="w-5 h-8 object-contain" />
@@ -49,7 +47,7 @@ onMounted(() => {
     </div>
 
     <!-- 内容区 -->
-    <div class="w-full flex flex-col items-center">
+    <div class="w-full flex flex-col items-center mt-12">
       <div class="flex flex-col items-center pt-8">
         <div class="justify-start mb-7">
           <span class="text-black text-3xl font-semibold font-['PingFang_SC']">波场能量 </span

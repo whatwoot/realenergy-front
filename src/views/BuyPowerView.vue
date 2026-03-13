@@ -84,7 +84,7 @@ const goBack = () => {
 </script>
 <template>
   <div class="w-full h-[1451px] relative bg-slate-50 overflow-hidden">
-    <div class="w-full h-13 flex justify-center items-center border-b border-gray-200 pb-2 pt-2">
+    <div class="w-full h-13 flex bg-white justify-center items-center border-b border-gray-200 pb-2 pt-2 fixed top-0 left-0 right-0 z-50">
       <div class="w-6 h-6 flex-none absolute left-4 cursor-pointer" @click="goBack">
         <img src="@/assets/left_arraw.png" class="w-6 h-6 object-contain" />
       </div>
@@ -93,7 +93,7 @@ const goBack = () => {
       </div>
     </div>
 
-    <div class="w-full">
+    <div class="w-full flex flex-col items-center mt-12">
       <div class="m-4 h-[463px] bg-white rounded-2xl py-4 pl-4">
         <div class="justify-start text-blue-600 text-base font-medium font-['PingFang_SC']">
           转账购买
